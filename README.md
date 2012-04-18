@@ -4,7 +4,14 @@ When faux css columns can't be done, this plugin will solve your mismatched colu
 
 ## Usage
 
-$('#sidebar').stretchTo('footer');
+The first jquery selector will determine which element to adjust the height of. In the example below, the code will adjust the height of #sidebar to the top of the footer element.
 
-The above code will adjust the height of #sidebar to the top of the footer element.
+	$('#sidebar').stretchTo('footer');
+
+
+This will adjust the height of #sidebar & #main to the top of #bottom.
+
+	$('#sidebar, #main').stretchTo('#bottom');
+
+
 
