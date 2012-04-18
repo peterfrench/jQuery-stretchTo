@@ -1,33 +1,47 @@
 /**
- * stretchTo jQuery Plugin
+ * stretchTo jQuery plugin
  * @author Peter French
  */
 (function( $ ){
 
-  $.fn.stretchTo = function( to, speed ) {  
+  $.fn.stretchTo = function( selector, delay, speed ) {
 	
-    var settings = $.extend( {
-		'to'		: 'body',
+    var settings = $.extend(
+	// defaults
+	{
+		'selector'	: null,
+		'delay'		: 0,
 		'speed'		: 0
-    }, {
-		'to'		: to,
+    },
+	// params
+	$.isPlainObject(selector) ? selector
+	: {
+		'selector'	: selector,
+		'delay'		: delay,
 		'speed'		: speed
-	});	
-		
-	var to = { $ : $(settings.to) }
-	to.offset = to.$.offset();
+	});
 
-    return this.each(function() {
+	return this.each(function() {
 		
-		var el = { $ : $(this) }
-		el.offset = el.$.offset();
+		var self = this;
 		
-		var distance = to.offset.top - (el.offset.top + el.$.outerHeight());
-		
-		if(distance)
-			el.$.animate({ 'min-height': ( el.$.height() + distance) + 'px'}, settings.speed);
-
-    });
+		setTimeout(function(){
+	
+			var el = { $ : $(self) }
+			el.offset = el.$.offset();
+			
+			var to = { $ : $(settings.selector) }
+			to.offset = to.$.offset();
+			
+			// calculate distance between elements
+			var distance = to.offset.top - (el.offset.top + el.$.outerHeight());
+			
+			// animate element
+			if(distance)			
+				el.$.animate({ 'min-height': ( el.$.height() + distance) + 'px'}, settings.speed);
+			
+		}, settings.delay);
+	});
 
   };
 })( jQuery );
